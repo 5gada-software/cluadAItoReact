@@ -11,10 +11,10 @@ const {
 } = require("../controllers/inventoryController");
 
 // Routes
-router.get("/", getAllInventories);
-router.post("/", createInventory);
-router.get("/:id", getInventoryById);
-router.put("/:id", updateInventory);
-router.delete("/:id", deleteInventory);
+router.get("/inventories", getAllInventories);
+router.post("/inventories", createInventory);
+router.get("/inventories/:id", getInventoryById);
+router.put("/inventories/:id", updateInventory);
+router.delete("/inventories/:id", deleteInventory);
 
 module.exports = router;

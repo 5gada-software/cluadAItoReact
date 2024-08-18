@@ -1,5 +1,7 @@
 import React, { useState } from "react";
+import axios from "axios";
 import Modal from "../ui/modal";
+import { API_URL } from "../constants/url";
 
 const AddCustomItemForm = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -10,18 +12,31 @@ const AddCustomItemForm = () => {
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log({ itemName, cubicFeet, category });
-    closeModal(); // Close the modal after submission
+    try {
+      const response = await axios.post(API_URL, {
+        name: itemName,
+        cubicFeet: parseFloat(cubicFeet),
+        category,
+      });
+      console.log("Item added successfully:", response.data);
+      // Optionally, clear form fields
+      setItemName("");
+      setCubicFeet("");
+      setCategory("");
+      closeModal(); // Close the modal after submission
+    } catch (error) {
+      console.error("Error adding item:", error);
+      // Handle error (e.g., show a notification)
+    }
   };
 
   return (
     <div className="w-max">
       <button
         onClick={openModal}
-        class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
+        className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background shadow-sm hover:bg-accent hover:text-accent-foreground h-9 px-4 py-2"
       >
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -30,10 +45,10 @@ const AddCustomItemForm = () => {
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
-          stroke-width="2"
-          stroke-linecap="round"
-          stroke-linejoin="round"
-          class="lucide lucide-plus mr-1"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="lucide lucide-plus mr-1"
         >
           <path d="M5 12h14"></path>
           <path d="M12 5v14"></path>
