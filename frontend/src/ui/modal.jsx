@@ -16,7 +16,7 @@ const Modal = ({ isOpen, onClose, children }) => {
       <div className={modalClasses} onClick={onClose}>
         <div
           onClick={preventClose}
-          className="max-w-xl mt-0 pt-0 relative space-y-4  "
+          className="max-w-xl  mt-0 pt-0 relative space-y-4  "
         >
           <button
             className="absolute top-4 right-2 mt-4 bg-red mr-2"

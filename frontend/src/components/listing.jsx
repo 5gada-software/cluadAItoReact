@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios"; // Import axios
+import axios from "axios";
 import Table from "../ui/table";
+import Modal from "../ui/modal";
 import { API_URL } from "../constants/url";
 
 const columns = ["Item", "Cubic Feet", "Quantity"];
@@ -8,6 +9,7 @@ const columns = ["Item", "Cubic Feet", "Quantity"];
 export default function Listing({ filters, data, loading, error }) {
   const [inventoryData, setInventoryData] = useState(data);
   const [totals, setTotals] = useState({ items: 0, cubicFeet: 0, weight: 0 });
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   useEffect(() => {
     const totalItems = inventoryData.reduce(
@@ -39,7 +41,6 @@ export default function Listing({ filters, data, loading, error }) {
     const newQuantity = Math.max(0, item.quantity + delta);
 
     try {
-      // Update on the server
       const newInventoryData = inventoryData.map((item, idx) => {
         if (idx === index) {
           return { ...item, quantity: newQuantity };
@@ -48,12 +49,38 @@ export default function Listing({ filters, data, loading, error }) {
       });
 
       setInventoryData(newInventoryData);
-      await axios.put(API_URL + "/" + item._id, {
-        quantity: newQuantity,
-      });
+      await axios.put(`${API_URL}/${item._id}`, { quantity: newQuantity });
     } catch (error) {
       console.error("Error updating quantity:", error);
     }
+  };
+
+  const openModal = () => setIsModalOpen(true);
+  const closeModal = () => setIsModalOpen(false);
+
+  const generateSummary = () => {
+    const groupedItems = inventoryData.reduce((acc, item) => {
+      if (item.quantity > 0) {
+        if (!acc[item.category]) {
+          acc[item.category] = [];
+        }
+        acc[item.category].push(`${item.quantity} x ${item.name}`);
+      }
+      return acc;
+    }, {});
+
+    const summary = [
+      `**Inventory**`,
+      `Total items: ${totals.items}`,
+      `Total volume: ${totals.cubicFeet.toFixed(2)}`,
+      `Total weight: ${totals.weight}`,
+      "",
+      ...Object.keys(groupedItems).map(
+        (category) => `${category}:\n${groupedItems[category].join("\n")}`
+      ),
+    ].join("\n");
+
+    return summary;
   };
 
   const filteredInventoryData = inventoryData.filter((item) => {
@@ -125,7 +152,10 @@ export default function Listing({ filters, data, loading, error }) {
           Items: {totals.items} | Cubic Feet: {totals.cubicFeet.toFixed(2)} |
           Weight: {totals.weight} lbs
         </div>
-        <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-white text-gray-100-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2">
+        <button
+          onClick={openModal}
+          className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-white text-gray-100-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -145,6 +175,51 @@ export default function Listing({ filters, data, loading, error }) {
           Save inventory
         </button>
       </div>
+
+      <Modal isOpen={isModalOpen} onClose={closeModal}>
+        <div className="p-8 bg-white rounded-lg w-[500px]">
+          <h2 className="text-lg font-semibold mb-2">Inventory Summary</h2>
+          <pre>{generateSummary()}</pre>
+          <div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-white text-gray-900-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2 mr-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-copy mr-1"
+              >
+                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
+                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
+              </svg>
+              Copy to Clipboard
+            </button>
+            <button onClick={closeModal} class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-gray-900-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2">
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="16"
+                height="16"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="lucide lucide-x mr-1"
+              >
+                <path d="M18 6 6 18"></path>
+                <path d="m6 6 12 12"></path>
+              </svg>
+              Close
+            </button>
+          </div>
+        </div>
+      </Modal>
     </div>
   );
 }
