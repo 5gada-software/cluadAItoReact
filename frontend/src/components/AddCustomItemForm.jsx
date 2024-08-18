@@ -26,6 +26,7 @@ const AddCustomItemForm = ({ setNewAdded }) => {
         name: itemName,
         cubicFeet: parseFloat(cubicFeet),
         category,
+        weight: parseFloat(cubicFeet) * 7,
       });
       console.log("Item added successfully:", response.data);
       setSuccess("Item added successfully!");
