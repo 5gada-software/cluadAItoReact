@@ -8,12 +8,19 @@ const AddCustomItemForm = () => {
   const [itemName, setItemName] = useState("");
   const [cubicFeet, setCubicFeet] = useState("");
   const [category, setCategory] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
+  const [success, setSuccess] = useState("");
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setLoading(true);
+    setError("");
+    setSuccess("");
+
     try {
       const response = await axios.post(API_URL, {
         name: itemName,
@@ -21,14 +28,18 @@ const AddCustomItemForm = () => {
         category,
       });
       console.log("Item added successfully:", response.data);
-      // Optionally, clear form fields
+      setSuccess("Item added successfully!");
       setItemName("");
       setCubicFeet("");
       setCategory("");
-      closeModal(); // Close the modal after submission
+      setTimeout(() => {
+        closeModal();
+      }, 2000);
     } catch (error) {
       console.error("Error adding item:", error);
-      // Handle error (e.g., show a notification)
+      setError("Error adding item. Please try again.");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -78,21 +89,34 @@ const AddCustomItemForm = () => {
                 onChange={(e) => setCubicFeet(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded"
               />
-              <input
-                type="text"
-                required
-                placeholder="Category"
+              <select
+                className="mr-2 p-2 border rounded"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded"
-              />
+              >
+                <option value="">All Categories</option>
+                <option value="Appliances">Appliances</option>
+                <option value="Bedroom">Bedroom</option>
+                <option value="Den">Den</option>
+                <option value="Dining Room">Dining Room</option>
+                <option value="Exercise">Exercise</option>
+                <option value="Foyer">Foyer</option>
+                <option value="Garage">Garage</option>
+                <option value="Home Office">Home Office</option>
+                <option value="Kitchen">Kitchen</option>
+                <option value="Living/Family Room">Living/Family Room</option>
+              </select>
             </div>
+            {loading && <p className="text-blue-500 mt-2">Loading...</p>}
+            {error && <p className="text-red-500 mt-2">{error}</p>}
+            {success && <p className="text-green-500 mt-2">{success}</p>}
             <div className="mt-6 flex justify-end">
               <button
                 type="submit"
                 className="bg-black text-white px-4 py-2 rounded"
+                disabled={loading}
               >
-                Add Item
+                {loading ? "Adding..." : "Add Item"}
               </button>
             </div>
           </form>
