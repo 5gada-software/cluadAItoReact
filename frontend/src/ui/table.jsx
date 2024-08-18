@@ -15,12 +15,15 @@ const Table = ({ columns, data, DetailComponent, loading, error }) => {
   };
 
   return (
-    <div className="overflow-x-scroll w-full pb-32">
+    <div className="w-full">
       <table className="min-w-max w-full border-collapse table">
         <thead className="table-header-group">
           <tr className="border-b  border-gray-300 bg-white table-row">
             {columns.map((col, index) => (
-              <th key={index} className="p-2  font-semibold text-left table-cell">
+              <th
+                key={index}
+                className="p-2  font-semibold text-left table-cell"
+              >
                 {col}
               </th>
             ))}
@@ -34,7 +37,10 @@ const Table = ({ columns, data, DetailComponent, loading, error }) => {
         ) : error ? (
           <tbody>
             <tr>
-              <td colSpan={columns.length + 1} className="text-red-800 bg-yellow-300 p-1 px-2 text-center">
+              <td
+                colSpan={columns.length + 1}
+                className="text-red-800 bg-yellow-300 p-1 px-2 text-center"
+              >
                 {error}
               </td>
             </tr>
@@ -78,7 +84,10 @@ const Table = ({ columns, data, DetailComponent, loading, error }) => {
         ) : (
           <tbody>
             <tr>
-              <td colSpan={columns.length + 1} className="text-red-800 bg-yellow-300 p-1 px-2 text-center">
+              <td
+                colSpan={columns.length + 1}
+                className="text-red-800 bg-yellow-300 p-1 px-2 text-center"
+              >
                 No data found
               </td>
             </tr>
