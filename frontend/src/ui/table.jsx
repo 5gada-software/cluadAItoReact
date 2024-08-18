@@ -18,7 +18,7 @@ const Table = ({ columns, data, DetailComponent, loading, error }) => {
     <div className="overflow-x-scroll w-full pb-32">
       <table className="min-w-max w-full border-collapse table">
         <thead className="table-header-group">
-          <tr className="border-b border-gray-300 bg-white table-row">
+          <tr className="border-b  border-gray-300 bg-white table-row">
             {columns.map((col, index) => (
               <th key={index} className="p-2  font-semibold text-left table-cell">
                 {col}
@@ -43,9 +43,9 @@ const Table = ({ columns, data, DetailComponent, loading, error }) => {
           <tbody className="bg-white table-row-group">
             {data.map((row, rowIndex) => (
               <React.Fragment key={rowIndex}>
-                <tr className="border-b table-row">
+                <tr className="border-b py-2 table-row">
                   {columns.map((col, colIndex) => (
-                    <td key={colIndex} className="p-2 relative table-cell">
+                    <td key={colIndex} className="p-2 py-3 relative table-cell">
                       {row[col]}
                     </td>
                   ))}
