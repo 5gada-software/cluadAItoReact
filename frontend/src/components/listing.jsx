@@ -7,18 +7,6 @@ export default function Listing({ filters, data }) {
   const [inventoryData, setInventoryData] = useState(data);
   const [totals, setTotals] = useState({ items: 0, cubicFeet: 0, weight: 0 });
 
-  const updateQuantity = (index, delta) => {
-    const newInventoryData = inventoryData.map((item, idx) => {
-      if (idx === index) {
-        const newQuantity = Math.max(0, item.quantity + delta);
-        return { ...item, quantity: newQuantity };
-      }
-      return item;
-    });
-
-    setInventoryData(newInventoryData);
-  };
-
   useEffect(() => {
     const totalItems = inventoryData.reduce(
       (acc, item) => acc + (item.quantity > 0 ? 1 : 0),
@@ -39,6 +27,22 @@ export default function Listing({ filters, data }) {
       weight: totalWeight,
     });
   }, [inventoryData]);
+
+  useEffect(() => {
+    setInventoryData(data); // Update inventory data when props change
+  }, [data]);
+
+  const updateQuantity = (index, delta) => {
+    const newInventoryData = inventoryData.map((item, idx) => {
+      if (idx === index) {
+        const newQuantity = Math.max(0, item.quantity + delta);
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    });
+
+    setInventoryData(newInventoryData);
+  };
 
   const filteredInventoryData = inventoryData.filter((item) => {
     return (
@@ -104,7 +108,7 @@ export default function Listing({ filters, data }) {
           Items: {totals.items} | Cubic Feet: {totals.cubicFeet.toFixed(2)} |
           Weight: {totals.weight} lbs
         </div>
-        <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-white text-gray-100-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2">
+        <button className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-white text-gray-100-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2">
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="20"
@@ -112,10 +116,10 @@ export default function Listing({ filters, data }) {
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
-            stroke-width="2"
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            class="lucide lucide-save mr-1"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            className="lucide lucide-save mr-1"
           >
             <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
             <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path>

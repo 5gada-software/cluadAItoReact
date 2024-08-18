@@ -3,7 +3,7 @@ import axios from "axios";
 import Modal from "../ui/modal";
 import { API_URL } from "../constants/url";
 
-const AddCustomItemForm = () => {
+const AddCustomItemForm = ({ setNewAdded }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [itemName, setItemName] = useState("");
   const [cubicFeet, setCubicFeet] = useState("");
@@ -29,6 +29,7 @@ const AddCustomItemForm = () => {
       });
       console.log("Item added successfully:", response.data);
       setSuccess("Item added successfully!");
+      setNewAdded(true);
       setItemName("");
       setCubicFeet("");
       setCategory("");
