@@ -16,14 +16,14 @@ const Modal = ({ isOpen, onClose, children }) => {
       <div className={modalClasses} onClick={onClose}>
         <div
           onClick={preventClose}
-          className="max-w-lg mt-0 pt-0 relative space-y-4  "
+          className="max-w-xl mt-0 pt-0 relative space-y-4  "
         >
           <button
-            className="absolute top-2 right-2 mt-4 bg-red mr-2"
+            className="absolute top-4 right-2 mt-4 bg-red mr-2"
             onClick={onClose}
           >
             <svg
-              className="h-6 w-6 text-gray-900"
+              className="h-5 w-5 text-gray-600"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
