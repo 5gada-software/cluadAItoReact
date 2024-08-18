@@ -140,7 +140,7 @@ export default function Listing({ filters, data, loading, error }) {
   }));
 
   return (
-    <div>
+    <div className="w-full">
       <Table
         data={mappedData}
         columns={columns}
@@ -177,10 +177,10 @@ export default function Listing({ filters, data, loading, error }) {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="p-8 w-[500px]">
+        <div className="p-8 w-[95vw] sm:w-[500px]">
           <h2 className="text-lg font-semibold mb-2">Inventory Summary</h2>
           <pre>{generateSummary()}</pre>
-          <div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
+          <div class="flex flex-col-reverse space-y-3 gap-3 sm:flex-row sm:justify-end sm:space-x-2">
             <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-white text-gray-900-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2 mr-2">
               <svg
                 xmlns="http://www.w3.org/2000/svg"
