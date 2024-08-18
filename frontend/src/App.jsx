@@ -14,7 +14,7 @@ function Pages() {
 
 function Routing() {
   return (
-    <div>
+    <div className="w-screen">
       <Pages />
     </div>
   );
