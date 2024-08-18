@@ -16,7 +16,7 @@ const Table = ({ columns, data, DetailComponent, loading, error }) => {
 
   return (
     <div className="overflow-x-scroll w-full pb-32">
-      <table className="min-w-full border-collapse table">
+      <table className="min-w-max w-full border-collapse table">
         <thead className="table-header-group">
           <tr className="border-b border-gray-300 bg-white table-row">
             {columns.map((col, index) => (
