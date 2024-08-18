@@ -91,11 +91,11 @@ const AddCustomItemForm = ({ setNewAdded }) => {
                 className="w-full p-2 border border-gray-300 rounded"
               />
               <select
-                className="mr-2 p-2 border rounded"
+                className="mr-2 p-2 border w-full rounded"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
               >
-                <option value="">All Categories</option>
+                <option value="">Category</option>
                 <option value="Appliances">Appliances</option>
                 <option value="Bedroom">Bedroom</option>
                 <option value="Den">Den</option>
