@@ -22,7 +22,7 @@ const Table = ({ columns, data, DetailComponent, loading, error }) => {
             {columns.map((col, index) => (
               <th
                 key={index}
-                className="p-2  font-semibold text-left table-cell"
+                className="p-2  font-bold text-left table-cell"
               >
                 {col}
               </th>
