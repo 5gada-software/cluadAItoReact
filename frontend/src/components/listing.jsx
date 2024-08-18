@@ -177,7 +177,7 @@ export default function Listing({ filters, data, loading, error }) {
       </div>
 
       <Modal isOpen={isModalOpen} onClose={closeModal}>
-        <div className="p-8 bg-white rounded-lg w-[500px]">
+        <div className="p-8 w-[500px]">
           <h2 className="text-lg font-semibold mb-2">Inventory Summary</h2>
           <pre>{generateSummary()}</pre>
           <div class="flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2">
@@ -199,7 +199,10 @@ export default function Listing({ filters, data, loading, error }) {
               </svg>
               Copy to Clipboard
             </button>
-            <button onClick={closeModal} class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-gray-900-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2">
+            <button
+              onClick={closeModal}
+              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-gray-900-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2"
+            >
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 width="16"
