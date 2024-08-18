@@ -66,7 +66,7 @@ export default function Listing({ filters, data, loading, error }) {
 
   const mappedData = filteredInventoryData.map((item, index) => ({
     Item: item.name,
-    "Cubic Feet": <span>{item.cubicFeet } ft³</span>,
+    "Cubic Feet": <span>{item.cubicFeet} ft³</span>,
     Quantity: (
       <div className="flex items-center">
         <button
