@@ -3,7 +3,7 @@ import Table from "../ui/table";
 
 const columns = ["Item", "Cubic Feet", "Quantity"];
 
-export default function Listing({ filters, data }) {
+export default function Listing({ filters, data,loading,error }) {
   const [inventoryData, setInventoryData] = useState(data);
   const [totals, setTotals] = useState({ items: 0, cubicFeet: 0, weight: 0 });
 
@@ -102,7 +102,7 @@ export default function Listing({ filters, data }) {
 
   return (
     <div>
-      <Table data={mappedData} columns={columns} loading={false} error={null} />
+      <Table data={mappedData} columns={columns} loading={loading} error={error} />
       <div className="mt-4 flex justify-between items-center">
         <div>
           Items: {totals.items} | Cubic Feet: {totals.cubicFeet.toFixed(2)} |
