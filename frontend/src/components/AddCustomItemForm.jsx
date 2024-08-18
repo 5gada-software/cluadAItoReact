@@ -35,7 +35,7 @@ const AddCustomItemForm = ({ setNewAdded }) => {
       setCategory("");
       setTimeout(() => {
         closeModal();
-      }, 2000);
+      }, 100);
     } catch (error) {
       console.error("Error adding item:", error);
       setError("Error adding item. Please try again.");

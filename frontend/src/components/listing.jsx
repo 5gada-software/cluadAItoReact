@@ -1,9 +1,11 @@
 import React, { useState, useEffect } from "react";
+import axios from "axios"; // Import axios
 import Table from "../ui/table";
+import { API_URL } from "../constants/url";
 
 const columns = ["Item", "Cubic Feet", "Quantity"];
 
-export default function Listing({ filters, data,loading,error }) {
+export default function Listing({ filters, data, loading, error }) {
   const [inventoryData, setInventoryData] = useState(data);
   const [totals, setTotals] = useState({ items: 0, cubicFeet: 0, weight: 0 });
 
@@ -32,16 +34,29 @@ export default function Listing({ filters, data,loading,error }) {
     setInventoryData(data);
   }, [data]);
 
-  const updateQuantity = (index, delta) => {
-    const newInventoryData = inventoryData.map((item, idx) => {
-      if (idx === index) {
-        const newQuantity = Math.max(0, item.quantity + delta);
-        return { ...item, quantity: newQuantity };
-      }
-      return item;
-    });
+  const updateQuantity = async (index, delta) => {
+    const item = inventoryData[index];
+    const newQuantity = Math.max(0, item.quantity + delta);
 
-    setInventoryData(newInventoryData);
+    try {
+      // Update on the server
+      await axios.put(API_URL + "/" + item._id, {
+        quantity: newQuantity,
+      });
+
+      // Update local state if the request is successful
+      const newInventoryData = inventoryData.map((item, idx) => {
+        if (idx === index) {
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      });
+
+      setInventoryData(newInventoryData);
+    } catch (error) {
+      console.error("Error updating quantity:", error);
+      // Optionally handle the error (e.g., show a notification)
+    }
   };
 
   const filteredInventoryData = inventoryData.filter((item) => {
@@ -102,7 +117,12 @@ export default function Listing({ filters, data,loading,error }) {
 
   return (
     <div>
-      <Table data={mappedData} columns={columns} loading={loading} error={error} />
+      <Table
+        data={mappedData}
+        columns={columns}
+        loading={loading}
+        error={error}
+      />
       <div className="mt-4 flex justify-between items-center">
         <div>
           Items: {totals.items} | Cubic Feet: {totals.cubicFeet.toFixed(2)} |

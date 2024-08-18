@@ -3,7 +3,7 @@ const Inventory = require("../models/inventoryModel");
 // Get all inventory items
 exports.getAllInventories = async (req, res) => {
   try {
-    const inventories = await Inventory.find();
+    const inventories = await Inventory.find().sort({ createdAt: -1 });
     res.status(200).json(inventories);
   } catch (error) {
     res.status(500).json({ message: error.message });
