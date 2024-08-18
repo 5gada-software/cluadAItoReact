@@ -40,11 +40,6 @@ export default function Listing({ filters, data, loading, error }) {
 
     try {
       // Update on the server
-      await axios.put(API_URL + "/" + item._id, {
-        quantity: newQuantity,
-      });
-
-      // Update local state if the request is successful
       const newInventoryData = inventoryData.map((item, idx) => {
         if (idx === index) {
           return { ...item, quantity: newQuantity };
@@ -53,9 +48,11 @@ export default function Listing({ filters, data, loading, error }) {
       });
 
       setInventoryData(newInventoryData);
+      await axios.put(API_URL + "/" + item._id, {
+        quantity: newQuantity,
+      });
     } catch (error) {
       console.error("Error updating quantity:", error);
-      // Optionally handle the error (e.g., show a notification)
     }
   };
 

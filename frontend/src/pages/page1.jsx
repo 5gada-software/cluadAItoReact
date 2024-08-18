@@ -16,10 +16,12 @@ export default function Page1() {
         const response = await axios.get(`${API_URL}`);
         setInventoryData(response.data);
         setLoading(false);
+        setNewAdded(false);
       } catch (error) {
         console.error("Error fetching inventory data:", error);
         setError("Failed to load inventory data.");
         setLoading(false);
+        setNewAdded(false);
       }
     };
 
