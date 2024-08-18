@@ -29,7 +29,7 @@ export default function Listing({ filters, data }) {
   }, [inventoryData]);
 
   useEffect(() => {
-    setInventoryData(data); // Update inventory data when props change
+    setInventoryData(data);
   }, [data]);
 
   const updateQuantity = (index, delta) => {
