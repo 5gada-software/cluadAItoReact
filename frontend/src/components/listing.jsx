@@ -10,6 +10,7 @@ export default function Listing({ filters, data, loading, error }) {
   const [inventoryData, setInventoryData] = useState(data);
   const [totals, setTotals] = useState({ items: 0, cubicFeet: 0, weight: 0 });
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [copied, setCopied] = useState(false);
 
   useEffect(() => {
     const totalItems = inventoryData.reduce(
@@ -72,8 +73,8 @@ export default function Listing({ filters, data, loading, error }) {
     const summary = [
       `**Inventory**`,
       `Total items: ${totals.items}`,
-      `Total volume: ${totals.cubicFeet.toFixed(2)}`,
-      `Total weight: ${totals.weight}`,
+      `Total volume: ${totals.cubicFeet.toFixed(2)} ft³`,
+      `Total weight: ${totals.weight} lbs`,
       "",
       ...Object.keys(groupedItems).map(
         (category) => `${category}:\n${groupedItems[category].join("\n")}`
@@ -81,6 +82,14 @@ export default function Listing({ filters, data, loading, error }) {
     ].join("\n");
 
     return summary;
+  };
+
+  const copyToClipboard = () => {
+    const summary = generateSummary();
+    navigator.clipboard.writeText(summary).then(() => {
+      setCopied(true);
+      setTimeout(() => setCopied(false), 2000); // Revert button text after 2 seconds
+    });
   };
 
   const filteredInventoryData = inventoryData.filter((item) => {
@@ -171,7 +180,7 @@ export default function Listing({ filters, data, loading, error }) {
             <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
             <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path>
             <path d="M7 3v4a1 1 0 0 0 1 1h7"></path>
-          </svg>{" "}
+          </svg>
           Save inventory
         </button>
       </div>
@@ -180,44 +189,61 @@ export default function Listing({ filters, data, loading, error }) {
         <div className="p-8 w-[95vw] sm:w-[500px]">
           <h2 className="text-lg font-semibold mb-2">Inventory Summary</h2>
           <pre>{generateSummary()}</pre>
-          <div class="flex mt-4 flex-col-reverse  gap-3 sm:flex-row sm:justify-end sm:space-x-2">
-            <button class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-white text-gray-900-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2 mr-2">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-copy mr-1"
-              >
-                <rect width="14" height="14" x="8" y="8" rx="2" ry="2"></rect>
-                <path d="M4 16c-1.1 0-2-.9-2-2V4c0-1.1.9-2 2-2h10c1.1 0 2 .9 2 2"></path>
-              </svg>
-              Copy to Clipboard
+          <div className="flex mt-4 flex-col-reverse gap-2 sm:flex-row sm:justify-end ">
+            <button
+              onClick={copyToClipboard}
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-white text-gray-900-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2 mr-2"
+            >
+              {copied ? (
+                <span className="inline-flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-check mr-1"
+                  >
+                    <path d="M20 6L9 17L4 12"></path>
+                  </svg>
+                  Copied!
+                </span>
+              ) : (
+                <span className="inline-flex items-center">
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    stroke="currentColor"
+                    strokeWidth="2"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    className="lucide lucide-copy mr-1"
+                  >
+                    <rect
+                      x="9"
+                      y="9"
+                      width="13"
+                      height="13"
+                      rx="2"
+                      ry="2"
+                    ></rect>
+                    <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+                  </svg>
+                  Copy to Clipboard
+                </span>
+              )}
             </button>
             <button
               onClick={closeModal}
-              class="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium text-white transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 bg-gray-900 text-gray-900-foreground shadow hover:bg-gray-900/90 h-9 px-4 py-2"
+              className="inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50 border border-input bg-background  bg-gray-900 text-white text-gray-900-foreground shadow hover:bg-gray-900/90 px-4 py-2"
             >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="16"
-                height="16"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="lucide lucide-x mr-1"
-              >
-                <path d="M18 6 6 18"></path>
-                <path d="m6 6 12 12"></path>
-              </svg>
               Close
             </button>
           </div>
