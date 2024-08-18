@@ -18,7 +18,7 @@ const Modal = ({ isOpen, onClose, children }) => {
       <div className={modalClasses} onClick={onClose}>
         <div
           onClick={preventClose}
-          className="relative max-w-xl max-h-[80vh] overflow-auto bg-white  rounded shadow-lg"
+          className="relative max-w-xl max-h-[90vh] overflow-auto bg-white  rounded shadow-lg"
         >
           <button
             className="absolute top-4 right-4 rounded-full p-1"
