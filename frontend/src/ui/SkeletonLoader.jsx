@@ -1,17 +1,43 @@
-import React from 'react';
+// SkeletonLoader.js
+import React from "react";
+import Skeleton from "react-loading-skeleton";
+import "react-loading-skeleton/dist/skeleton.css";
 
-const SkeletonLoader = ({ rows = 5, columns }) => {
+const SkeletonLoader = ({ columns }) => {
   return (
-    <tbody className="animate-pulse bg-white table-row-group w-full">
-      {Array(rows).fill().map((_, rowIndex) => (
-        <tr key={rowIndex} className="border table-row">
-          {columns?.map((col, colIndex) => (
-            <td key={colIndex} className="p-2 bg-gray-200 rounded table-cell">
-              <div className="h-10 bg-gray-300 rounded w-full"></div>
-            </td>
-          ))}
-        </tr>
-      ))}
+    <tbody>
+      <tr>
+        {columns.map((_, index) => (
+          <td key={index} className="p-2 py-3">
+            <Skeleton height={20} />
+          </td>
+        ))}
+        <td className="p-2"></td>
+      </tr>
+      <tr>
+        {columns.map((_, index) => (
+          <td key={index} className="p-2 py-3">
+            <Skeleton height={20} />
+          </td>
+        ))}
+        <td className="p-2"></td>
+      </tr>{" "}
+      <tr>
+        {columns.map((_, index) => (
+          <td key={index} className="p-2 py-3">
+            <Skeleton height={20} />
+          </td>
+        ))}
+        <td className="p-2"></td>
+      </tr>
+      <tr>
+        {columns.map((_, index) => (
+          <td key={index} className="p-2 py-3">
+            <Skeleton height={20} />
+          </td>
+        ))}
+        <td className="p-2"></td>
+      </tr>
     </tbody>
   );
 };
