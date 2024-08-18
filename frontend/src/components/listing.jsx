@@ -2,84 +2,11 @@ import React, { useState, useEffect } from "react";
 import Table from "../ui/table";
 
 const columns = ["Item", "Cubic Feet", "Quantity"];
-const initialInventoryData = [
-  {
-    name: "AC, Large",
-    cubicFeet: 20,
-    category: "Appliances",
-    quantity: 0,
-    weight: 150,
-  },
-  {
-    name: "Bed, Queen",
-    cubicFeet: 65,
-    category: "Bedroom",
-    quantity: 0,
-    weight: 200,
-  },
-  {
-    name: "Pool Table",
-    cubicFeet: 60,
-    category: "Den",
-    quantity: 0,
-    weight: 350,
-  },
-  {
-    name: "Table, Dining",
-    cubicFeet: 30,
-    category: "Dining Room",
-    quantity: 0,
-    weight: 120,
-  },
-  {
-    name: "Treadmill",
-    cubicFeet: 25,
-    category: "Exercise",
-    quantity: 0,
-    weight: 220,
-  },
-  {
-    name: "Entry Table",
-    cubicFeet: 10,
-    category: "Foyer",
-    quantity: 0,
-    weight: 50,
-  },
-  {
-    name: "Lawn Mower, Power",
-    cubicFeet: 10,
-    category: "Garage",
-    quantity: 0,
-    weight: 80,
-  },
-  {
-    name: "Desk, Executive",
-    cubicFeet: 50,
-    category: "Home Office",
-    quantity: 0,
-    weight: 160,
-  },
-  {
-    name: "Refrigerator, Small",
-    cubicFeet: 20,
-    category: "Kitchen",
-    quantity: 0,
-    weight: 120,
-  },
-  {
-    name: "Sofa, 3 Cushion",
-    cubicFeet: 50,
-    category: "Living/Family Room",
-    quantity: 0,
-    weight: 180,
-  },
-];
 
-export default function Listing({ filters }) {
-  const [inventoryData, setInventoryData] = useState(initialInventoryData);
+export default function Listing({ filters, data }) {
+  const [inventoryData, setInventoryData] = useState(data);
   const [totals, setTotals] = useState({ items: 0, cubicFeet: 0, weight: 0 });
 
-  // Handle the quantity update
   const updateQuantity = (index, delta) => {
     const newInventoryData = inventoryData.map((item, idx) => {
       if (idx === index) {
@@ -92,7 +19,6 @@ export default function Listing({ filters }) {
     setInventoryData(newInventoryData);
   };
 
-  // Calculate the totals whenever inventoryData changes
   useEffect(() => {
     const totalItems = inventoryData.reduce(
       (acc, item) => acc + (item.quantity > 0 ? 1 : 0),
@@ -114,7 +40,6 @@ export default function Listing({ filters }) {
     });
   }, [inventoryData]);
 
-  // Filter inventory data based on the filters prop
   const filteredInventoryData = inventoryData.filter((item) => {
     return (
       (!filters.search ||
@@ -123,7 +48,6 @@ export default function Listing({ filters }) {
     );
   });
 
-  // Map data for Table component
   const mappedData = filteredInventoryData.map((item, index) => ({
     Item: item.name,
     "Cubic Feet": item.cubicFeet,

@@ -39,7 +39,7 @@ const Table = ({ columns, data, DetailComponent, loading, error }) => {
             <tr>
               <td
                 colSpan={columns.length + 1}
-                className="text-red-800 bg-yellow-300 p-1 px-2 text-center"
+                className="text-red-800 bg-red-100 p-1 px-2 text-center"
               >
                 {error}
               </td>
@@ -86,7 +86,7 @@ const Table = ({ columns, data, DetailComponent, loading, error }) => {
             <tr>
               <td
                 colSpan={columns.length + 1}
-                className="text-red-800 bg-yellow-300 p-1 px-2 text-center"
+                className="text-red-800 bg-red-100 p-1 px-2 text-center"
               >
                 No data found
               </td>
