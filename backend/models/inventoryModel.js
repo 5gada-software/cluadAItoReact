@@ -34,6 +34,7 @@ const inventorySchema = new mongoose.Schema(
     weight: {
       type: Number,
       required: true,
+      default: 0,
     },
   },
   {
