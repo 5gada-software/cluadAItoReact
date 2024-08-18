@@ -35,13 +35,16 @@ const AddCustomItemForm = () => {
             <div className="space-y-4">
               <input
                 type="text"
+                required
                 placeholder="Item Name"
                 value={itemName}
                 onChange={(e) => setItemName(e.target.value)}
                 className="w-full p-2 border border-gray-300 rounded"
               />
               <input
-                type="text"
+                type="number"
+                min={0}
+                required
                 placeholder="Cubic Feet"
                 value={cubicFeet}
                 onChange={(e) => setCubicFeet(e.target.value)}
@@ -49,6 +52,7 @@ const AddCustomItemForm = () => {
               />
               <input
                 type="text"
+                required
                 placeholder="Category"
                 value={category}
                 onChange={(e) => setCategory(e.target.value)}
