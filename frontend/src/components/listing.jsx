@@ -75,13 +75,9 @@ const initialInventoryData = [
   },
 ];
 
-export default function Listing() {
+export default function Listing({ filters }) {
   const [inventoryData, setInventoryData] = useState(initialInventoryData);
-  const [totals, setTotals] = useState({
-    items: 0,
-    cubicFeet: 0,
-    weight: 0,
-  });
+  const [totals, setTotals] = useState({ items: 0, cubicFeet: 0, weight: 0 });
 
   // Handle the quantity update
   const updateQuantity = (index, delta) => {
@@ -118,8 +114,17 @@ export default function Listing() {
     });
   }, [inventoryData]);
 
+  // Filter inventory data based on the filters prop
+  const filteredInventoryData = inventoryData.filter((item) => {
+    return (
+      (!filters.search ||
+        item.name.toLowerCase().includes(filters.search.toLowerCase())) &&
+      (!filters.category || item.category === filters.category)
+    );
+  });
+
   // Map data for Table component
-  const mappedData = inventoryData.map((item, index) => ({
+  const mappedData = filteredInventoryData.map((item, index) => ({
     Item: item.name,
     "Cubic Feet": item.cubicFeet,
     Quantity: (
@@ -186,13 +191,11 @@ export default function Listing() {
             strokeWidth="2"
             strokeLinecap="round"
             strokeLinejoin="round"
-            className="lucide lucide-save mr-1"
+            className="lucide lucide-plus-circle"
           >
-            <path d="M15.2 3a2 2 0 0 1 1.4.6l3.8 3.8a2 2 0 0 1 .6 1.4V19a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2z"></path>
-            <path d="M17 21v-7a1 1 0 0 0-1-1H8a1 1 0 0 0-1 1v7"></path>
-            <path d="M7 3v4a1 1 0 0 0 1 1h7"></path>
+            <path d="M12 5v14M5 12h14"></path>
           </svg>
-          Save inventory
+          <span className="ml-2">Add Item</span>
         </button>
       </div>
     </div>
