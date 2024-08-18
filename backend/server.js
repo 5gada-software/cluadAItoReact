@@ -6,7 +6,7 @@ const cors = require("cors");
 const bodyParser = require("body-parser");
 
 const PORT = process.env.PORT || 5000;
-app.set('trust proxy', 1);
+
 app.use(express.json());
 app.use(bodyParser.json());
 require("./config/db");
