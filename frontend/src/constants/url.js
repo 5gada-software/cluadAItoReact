@@ -1,1 +1,1 @@
-export const API_URL='http://localhost:5000/api/inventories'
+export const API_URL='http://server.inventorywhiz.com/api/inventories'
