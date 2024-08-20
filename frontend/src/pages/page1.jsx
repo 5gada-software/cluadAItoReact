@@ -3,25 +3,29 @@ import axios from "axios";
 import Search from "../components/search";
 import Listing from "../components/listing";
 import { API_URL } from "../constants/url";
+import { inventoryInitData } from "./data";
 
 export default function Page1() {
   const [filters, setFilters] = useState({ search: "", category: "" });
-  const [inventoryData, setInventoryData] = useState([]);
+  const [inventoryData, setInventoryData] = useState(inventoryInitData);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [newAdded, setNewAdded] = useState(false);
+  const [newAdded, setNewAdded] = useState(null);
+
   useEffect(() => {
     const fetchInventoryData = async () => {
       try {
-        const response = await axios.get(`${API_URL}`);
-        setInventoryData(response.data);
+        if (newAdded) {
+          // Add new item to the inventoryData array
+          setInventoryData((prevData) => [newAdded, ...prevData]);
+        } else {
+          setInventoryData(inventoryInitData);
+        }
         setLoading(false);
-        setNewAdded(false);
       } catch (error) {
         console.error("Error fetching inventory data:", error);
         setError("Failed to load inventory data.");
         setLoading(false);
-        setNewAdded(false);
       }
     };
 
