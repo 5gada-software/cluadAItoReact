@@ -23,7 +23,7 @@ const AddCustomItemForm = ({ setNewAdded }) => {
       setSuccess("Item added successfully!");
       setNewAdded({
         name: itemName,
-        quantity: 0,
+        quantity: 1,
         cubicFeet: parseFloat(cubicFeet),
         category,
       });

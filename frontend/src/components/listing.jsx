@@ -4,7 +4,14 @@ import Modal from "../ui/modal";
 
 const columns = ["Item", "Cubic Feet", "Quantity"];
 
-export default function Listing({ filters, data, loading, error }) {
+export default function Listing({
+  filters,
+  data,
+  loading,
+  error,
+  updateQuantity,
+  setFilteredData,
+}) {
   const [inventoryData, setInventoryData] = useState(data);
   const [totals, setTotals] = useState({ items: 0, cubicFeet: 0, weight: 0 });
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -31,27 +38,6 @@ export default function Listing({ filters, data, loading, error }) {
   useEffect(() => {
     setInventoryData(data);
   }, [data]);
-
-  const updateQuantity = async (filteredIndex, delta) => {
-    // Find the actual item in inventoryData that corresponds to the filtered item
-    const originalIndex = inventoryData.findIndex(
-      (item) => item === filteredInventoryData[filteredIndex]
-    );
-
-    if (originalIndex >= 0) {
-      const item = inventoryData[originalIndex];
-      const newQuantity = Math.max(0, item.quantity + delta);
-
-      const newInventoryData = inventoryData.map((item, idx) => {
-        if (idx === originalIndex) {
-          return { ...item, quantity: newQuantity };
-        }
-        return item;
-      });
-
-      setInventoryData(newInventoryData);
-    }
-  };
 
   const openModal = () => setIsModalOpen(true);
   const closeModal = () => setIsModalOpen(false);
@@ -88,14 +74,19 @@ export default function Listing({ filters, data, loading, error }) {
       setTimeout(() => setCopied(false), 2000); // Revert button text after 2 seconds
     });
   };
+  const [filteredInventoryData, setFilteredInventoryData] = useState([]);
 
-  const filteredInventoryData = inventoryData.filter((item) => {
-    return (
-      (!filters.search ||
-        item.name.toLowerCase().includes(filters.search.toLowerCase())) &&
-      (!filters.category || item.category === filters.category)
-    );
-  });
+  useEffect(() => {
+    const filtered = inventoryData.filter((item) => {
+      return (
+        (!filters.search ||
+          item.name.toLowerCase().includes(filters.search.toLowerCase())) &&
+        (!filters.category || item.category === filters.category)
+      );
+    });
+    setFilteredInventoryData(filtered);
+    setFilteredData(filtered);
+  }, [inventoryData,filters]);
 
   const mappedData = filteredInventoryData.map((item, index) => ({
     Item: item.name,
