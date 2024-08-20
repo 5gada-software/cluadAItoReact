@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Search from "../components/search";
 import Listing from "../components/listing";
-import { API_URL } from "../constants/url";
 import { inventoryInitData } from "./data";
 
 export default function Page1() {

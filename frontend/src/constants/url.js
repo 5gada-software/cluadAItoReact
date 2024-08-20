@@ -1,1 +1,0 @@
-export const API_URL='http://server.inventorywhiz.com/api/inventories'
