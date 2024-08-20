@@ -1,8 +1,6 @@
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import Table from "../ui/table";
 import Modal from "../ui/modal";
-import { API_URL } from "../constants/url";
 
 const columns = ["Item", "Cubic Feet", "Quantity"];
 
@@ -41,19 +39,14 @@ export default function Listing({ filters, data, loading, error }) {
     const item = inventoryData[index];
     const newQuantity = Math.max(0, item.quantity + delta);
 
-    try {
-      const newInventoryData = inventoryData.map((item, idx) => {
-        if (idx === index) {
-          return { ...item, quantity: newQuantity };
-        }
-        return item;
-      });
+    const newInventoryData = inventoryData.map((item, idx) => {
+      if (idx === index) {
+        return { ...item, quantity: newQuantity };
+      }
+      return item;
+    });
 
-      setInventoryData(newInventoryData);
-      await axios.put(`${API_URL}/${item._id}`, { quantity: newQuantity });
-    } catch (error) {
-      console.error("Error updating quantity:", error);
-    }
+    setInventoryData(newInventoryData);
   };
 
   const openModal = () => setIsModalOpen(true);
