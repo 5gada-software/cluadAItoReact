@@ -1,7 +1,5 @@
 import React, { useState } from "react";
-import axios from "axios";
 import Modal from "../ui/modal";
-import { API_URL } from "../constants/url";
 
 const AddCustomItemForm = ({ setNewAdded }) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -22,15 +20,13 @@ const AddCustomItemForm = ({ setNewAdded }) => {
     setSuccess("");
 
     try {
-      const response = await axios.post(API_URL, {
+      setSuccess("Item added successfully!");
+      setNewAdded({
         name: itemName,
+        quantity: 0,
         cubicFeet: parseFloat(cubicFeet),
         category,
-        weight: parseFloat(cubicFeet) * 7,
       });
-      console.log("Item added successfully:", response.data);
-      setSuccess("Item added successfully!");
-      setNewAdded(true);
       setItemName("");
       setCubicFeet("");
       setCategory("");
