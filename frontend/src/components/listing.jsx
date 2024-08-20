@@ -35,18 +35,25 @@ export default function Listing({ filters, data, loading, error }) {
     setInventoryData(data);
   }, [data]);
 
-  const updateQuantity = async (index, delta) => {
-    const item = inventoryData[index];
-    const newQuantity = Math.max(0, item.quantity + delta);
+  const updateQuantity = async (filteredIndex, delta) => {
+    // Find the actual item in inventoryData that corresponds to the filtered item
+    const originalIndex = inventoryData.findIndex(
+      (item) => item === filteredInventoryData[filteredIndex]
+    );
 
-    const newInventoryData = inventoryData.map((item, idx) => {
-      if (idx === index) {
-        return { ...item, quantity: newQuantity };
-      }
-      return item;
-    });
+    if (originalIndex >= 0) {
+      const item = inventoryData[originalIndex];
+      const newQuantity = Math.max(0, item.quantity + delta);
 
-    setInventoryData(newInventoryData);
+      const newInventoryData = inventoryData.map((item, idx) => {
+        if (idx === originalIndex) {
+          return { ...item, quantity: newQuantity };
+        }
+        return item;
+      });
+
+      setInventoryData(newInventoryData);
+    }
   };
 
   const openModal = () => setIsModalOpen(true);
