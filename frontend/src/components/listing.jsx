@@ -19,10 +19,7 @@ export default function Listing({ filters, data, loading, error }) {
       (acc, item) => acc + item.cubicFeet * item.quantity,
       0
     );
-    const totalWeight = inventoryData.reduce(
-      (acc, item) => acc + item.weight * item.quantity,
-      0
-    );
+    const totalWeight = totalCubicFeet * 7; // Convert cubic feet to weight
 
     setTotals({
       items: totalItems,
