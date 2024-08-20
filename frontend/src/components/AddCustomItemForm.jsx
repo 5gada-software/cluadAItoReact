@@ -103,6 +103,7 @@ const AddCustomItemForm = ({ setNewAdded }) => {
                 <option value="Home Office">Home Office</option>
                 <option value="Kitchen">Kitchen</option>
                 <option value="Living/Family Room">Living/Family Room</option>
+                <option value="Miscellaneous">Miscellaneous</option>
               </select>
             </div>
             {loading && <p className="text-blue-500 mt-2">Loading...</p>}

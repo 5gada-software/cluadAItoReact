@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import AddCustomItemForm from "./AddCustomItemForm";
 
-export default function Search({ setFilters,setNewAdded }) {
+export default function Search({ setFilters, setNewAdded }) {
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState("");
 
@@ -48,6 +48,7 @@ export default function Search({ setFilters,setNewAdded }) {
           <option value="Home Office">Home Office</option>
           <option value="Kitchen">Kitchen</option>
           <option value="Living/Family Room">Living/Family Room</option>
+          <option value="Miscellaneous">Miscellaneous</option>
         </select>
         <AddCustomItemForm setNewAdded={setNewAdded} />
       </div>
